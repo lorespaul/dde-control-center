@@ -26,4 +26,6 @@ dde-control-center
 # vim tmp file
 *.swp
 
-*.vscode
+# *.vscode
+Debug/*
+Build/*

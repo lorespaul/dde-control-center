@@ -201,7 +201,7 @@ void Frame::adjustShadowMask()
     const int radius = m_platformWindowHandle.shadowRadius();
     const QSize s = size();
     const qreal ratio = devicePixelRatioF();
-    const QRect r(0, radius / ratio, s.width() + radius / ratio, s.height());
+    const QRect r(0, (radius + 25) / ratio, s.width() + radius / ratio, s.height() - 25);
 
     m_platformWindowHandle.setFrameMask(r);
 }
@@ -408,7 +408,10 @@ void Frame::show()
     if (screen) {
         const qreal dpr = screen->devicePixelRatio();
         const QRect screenGeo = screen->geometry();
-        r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
+        QPoint qp = screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft());
+        qp.setY(qp.y() + 30);
+        r.moveTopLeft(qp / dpr);
+        // r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
     }
 
     // animation
@@ -462,7 +465,10 @@ void Frame::hide()
     if (screen) {
         const qreal dpr = screen->devicePixelRatio();
         const QRect screenGeo = screen->geometry();
-        r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
+        QPoint qp = screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft());
+        qp.setY(qp.y() + 30);
+        r.moveTopLeft(qp / dpr);
+        // r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
     }
 
     // animation
@@ -523,7 +529,10 @@ void Frame::hideImmediately()
     if (screen) {
         const qreal dpr = screen->devicePixelRatio();
         const QRect screenGeo = screen->geometry();
-        r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
+        QPoint qp = screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft());
+        qp.setY(qp.y() + 40);
+        r.moveTopLeft(qp / dpr);
+        // r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
     }
     r.setLeft(r.x() + r.width());
     Q_EMIT destRectChanged(r);
