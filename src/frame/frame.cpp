@@ -96,7 +96,7 @@ Frame::Frame(QWidget *parent)
     centralLayout->addWidget(m_navigationBar.data());
     centralLayout->addWidget(m_contentWrapper.data());
     centralLayout->setSpacing(0);
-    centralLayout->setContentsMargins(0, 0, 0, 0);
+    centralLayout->setContentsMargins(0, 0, 0, 20);
 
     m_frameWrapper->setLayout(centralLayout);
     m_frameWrapper->setFixedWidth(FRAME_WIDTH);
@@ -106,7 +106,7 @@ Frame::Frame(QWidget *parent)
     setMaximumWidth(FRAME_WIDTH);
     setMaskColor(DBlurEffectWidget::DarkColor);
 
-    resize(0, height());
+    resize(0, height() - FRAME_MARGIN_TOP);
 
     auto setOpacity = [=] (double opacity) {
         setMaskAlpha(opacity * 255);
