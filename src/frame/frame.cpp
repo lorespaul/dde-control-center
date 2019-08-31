@@ -40,6 +40,8 @@
 #include <DPlatformWindowHandle>
 #include <DForeignWindow>
 
+#define FRAME_MARGIN_TOP 26
+
 DWIDGET_USE_NAMESPACE
 
 Frame::Frame(QWidget *parent)
@@ -201,7 +203,7 @@ void Frame::adjustShadowMask()
     const int radius = m_platformWindowHandle.shadowRadius();
     const QSize s = size();
     const qreal ratio = devicePixelRatioF();
-    const QRect r(0, (radius + 25) / ratio, s.width() + radius / ratio, s.height() - 25);
+    const QRect r(0, radius / ratio, s.width() + radius / ratio, s.height());
 
     m_platformWindowHandle.setFrameMask(r);
 }
@@ -343,15 +345,15 @@ void Frame::onScreenRectChanged(const QRect &primaryRect)
             QRect rect = native_window->geometry();
 
             rect.setWidth(static_cast<int>(FRAME_WIDTH * ratio));
-            rect.setHeight(m_primaryRect.height());
+            rect.setHeight(m_primaryRect.height() - FRAME_MARGIN_TOP);
             //the frame might be invisible here as rotating screen in control center hides the frame
             rect.moveLeft(m_primaryRect.right() - (m_shown ? (rect.width() - 1) : 0));
-            rect.moveTop(m_primaryRect.top());
+            rect.moveTop(m_primaryRect.top() + FRAME_MARGIN_TOP);
 
             native_window->setGeometry(rect);
             Q_EMIT rectChanged(rect);
         } else {
-            DBlurEffectWidget::move(m_primaryRect.x() + m_primaryRect.width() / ratio - (m_shown ? (width() - 1) : 0), m_primaryRect.y());
+            DBlurEffectWidget::move(m_primaryRect.x() + m_primaryRect.width() / ratio - (m_shown ? (width() - 1) : 0), m_primaryRect.y() + FRAME_MARGIN_TOP);
         }
     });
 }
@@ -417,7 +419,7 @@ void Frame::show()
         const qreal dpr = screen->devicePixelRatio();
         const QRect screenGeo = screen->geometry();
         QPoint qp = screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft());
-        qp.setY(qp.y() + 30);
+        qp.setY(qp.y() + FRAME_MARGIN_TOP);
         r.moveTopLeft(qp / dpr);
         // r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
     }
@@ -474,7 +476,7 @@ void Frame::hide()
         const qreal dpr = screen->devicePixelRatio();
         const QRect screenGeo = screen->geometry();
         QPoint qp = screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft());
-        qp.setY(qp.y() + 30);
+        qp.setY(qp.y() + FRAME_MARGIN_TOP);
         r.moveTopLeft(qp / dpr);
         // r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
     }
@@ -538,7 +540,7 @@ void Frame::hideImmediately()
         const qreal dpr = screen->devicePixelRatio();
         const QRect screenGeo = screen->geometry();
         QPoint qp = screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft());
-        qp.setY(qp.y() + 40);
+        qp.setY(qp.y() + FRAME_MARGIN_TOP);
         r.moveTopLeft(qp / dpr);
         // r.moveTopLeft(screenGeo.topLeft() + (r.topLeft() - screenGeo.topLeft()) / dpr);
     }
