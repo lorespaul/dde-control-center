@@ -147,6 +147,11 @@ void DBusControlCenterService::ShowHome()
     parent()->backToHome();
 }
 
+void DBusControlCenterService::ShowNotifications()
+{
+    parent()->showNotifications();
+}
+
 void DBusControlCenterService::ShowModule(const QString &module)
 {
     ShowPage(module, QString());

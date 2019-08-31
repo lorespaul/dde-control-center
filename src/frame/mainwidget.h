@@ -52,6 +52,7 @@ class MainWidget : public FrameWidget
 
 public:
     explicit MainWidget(FrameContentWrapper *parent = 0);
+    void showNotifications();
 
 Q_SIGNALS:
     void showAllSettings() const;

@@ -220,6 +220,13 @@ void MainWidget::refershTimedate()
     m_currentDateLbl->setText(tm.date().toString(Qt::SystemLocaleLongDate));
 }
 
+void MainWidget::showNotifications()
+{
+    m_pluginsLayout->setCurrentWidget(m_notifyWidget);
+    m_notifyToggleBtn->setHoverPic(":/frame/themes/dark/icons/notifications_toggle_checkedhover.svg");
+    m_notifyToggleBtn->setNormalPic(":/frame/themes/dark/icons/notifications_toggle_checked.svg");
+}
+
 void MainWidget::toggleNotify()
 {
     if (m_pluginsLayout->currentWidget() == m_navWidget) {

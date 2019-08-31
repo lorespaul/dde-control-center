@@ -277,6 +277,14 @@ void Frame::showSettingsPage(const QString &moduleName, const QString &pageName,
         show();
 }
 
+void Frame::showNotifications()
+{
+    m_mainWidget->showNotifications();
+
+    if (!m_shown)
+        show();
+}
+
 void Frame::backToHome()
 {
     while (m_frameWidgetStack.size() > 1)
